@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Är det mer värt att åka buss eller ta cykeln?</p>
+
+<input type="text" placeholder="Buss kostnad per månad" id="busPrice"><br/>
+<input type="text" placeholder="Matkostnad per månad" id="monthlyBudget"><br/>
+<input type="text" placeholder="Antal km till jobbet (enkelväg)" id="kmToWorkByBicycle"><br/>
+<input type="text" placeholder="Kalorieintag per dag" id="caloriesSpentDaily"><br/>
+
+<p id="text"></p>
+
+<button id="submit">Is it worth it?</button>
+
+<script>
+document.getElementById('submit').addEventListener("click", calculateWorth);
+
+function calculateWorth() {
+	const busPrice = document.getElementById('busPrice').value;
+    const monthlyBudget = document.getElementById('monthlyBudget').value;
+    const kmToWorkByBicycle = document.getElementById('kmToWorkByBicycle').value;
+    const caloriesSpentDaily = document.getElementById('caloriesSpentDaily').value;
+    
+    
+    const costPerCalorie = (parseInt(monthlyBudget) / 30) / parseInt(caloriesSpentDaily);
+    const averageCalorieBurntPerKm = 32;
+	const costInCalorie = averageCalorieBurntPerKm * parseInt(kmToWorkByBicycle) * 2;
+    
+    const costPerDay = costPerCalorie * costInCalorie;
+    const costPerMonth = costPerDay * 30;
+    
+    if (costPerMonth >= parseInt(busPrice)) {
+    	document.body.style.background = "red";
+		document.getElementById('text').innerHTML = "Take the bus, rich ass";
+    } else {
+    	document.body.style.background = "green";
+        document.getElementById('text').innerHTML = "It's worth cycling!";
+    }
+}
+
+</script>
+</body>
+</html>

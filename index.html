@@ -3,25 +3,28 @@
 <body>
 
 <p>Är det mer värt att åka buss eller ta cykeln?</p>
-
+<label>Buss/sek/månad:</label>
 <input type="text" placeholder="Buss kostnad per månad" id="busPrice"><br/>
+<label>Matkostnad/månad</label>
 <input type="text" placeholder="Matkostnad per månad" id="monthlyBudget"><br/>
+<label>km till jobbet (enkelväg)</label>
 <input type="text" placeholder="Antal km till jobbet (enkelväg)" id="kmToWorkByBicycle"><br/>
+<label>Totalt kalorieintag/dag</label>
 <input type="text" placeholder="Kalorieintag per dag" id="caloriesSpentDaily"><br/>
 
 <p id="text"></p>
 <p id="information"></p>
-
+<p id="infoBicycle"></p>
 <button id="submit">Is it worth it?</button>
 
 <script>
 document.getElementById('submit').addEventListener("click", calculateWorth);
 
 function calculateWorth() {
-	const busPrice = parseInt(document.getElementById('busPrice').value);
-    const monthlyBudget = parseInt(document.getElementById('monthlyBudget').value);
-    const kmToWorkByBicycle = parseInt(document.getElementById('kmToWorkByBicycle').value);
-    const caloriesSpentDaily = parseInt(document.getElementById('caloriesSpentDaily').value);
+	const busPrice = parseFloat(document.getElementById('busPrice').value);
+    const monthlyBudget = parseFloat(document.getElementById('monthlyBudget').value);
+    const kmToWorkByBicycle = parseFloat(document.getElementById('kmToWorkByBicycle').value);
+    const caloriesSpentDaily = parseFloat(document.getElementById('caloriesSpentDaily').value);
         if (isNaN(caloriesSpentDaily) || isNaN(kmToWorkByBicycle) || isNaN(monthlyBudget) || isNaN(busPrice)) {
     	return;
     }
@@ -33,7 +36,7 @@ function calculateWorth() {
     const costPerDay = costPerCalorie * costInCalorie;
     const costPerMonth = costPerDay * 30;
 
-    
+    document.getElementById('infoBicycle').innerHTML = "Det kostar dig ca " + costPerCalorie * costInCalorie + "SEK per dag att cykla";
     if (costPerMonth >= busPrice) {
     	document.body.style.background = "red";
 		document.getElementById('text').innerHTML = "Take the bus, rich ass";

@@ -10,6 +10,7 @@
 <input type="text" placeholder="Kalorieintag per dag" id="caloriesSpentDaily"><br/>
 
 <p id="text"></p>
+<p id="information"></p>
 
 <button id="submit">Is it worth it?</button>
 
@@ -17,25 +18,35 @@
 document.getElementById('submit').addEventListener("click", calculateWorth);
 
 function calculateWorth() {
-	const busPrice = document.getElementById('busPrice').value;
-    const monthlyBudget = document.getElementById('monthlyBudget').value;
-    const kmToWorkByBicycle = document.getElementById('kmToWorkByBicycle').value;
-    const caloriesSpentDaily = document.getElementById('caloriesSpentDaily').value;
+	const busPrice = parseInt(document.getElementById('busPrice').value);
+    const monthlyBudget = parseInt(document.getElementById('monthlyBudget').value);
+    const kmToWorkByBicycle = parseInt(document.getElementById('kmToWorkByBicycle').value);
+    const caloriesSpentDaily = parseInt(document.getElementById('caloriesSpentDaily').value);
+        if (isNaN(caloriesSpentDaily) || isNaN(kmToWorkByBicycle) || isNaN(monthlyBudget) || isNaN(busPrice)) {
+    	return;
+    }
     
-    
-    const costPerCalorie = (parseInt(monthlyBudget) / 30) / parseInt(caloriesSpentDaily);
+    const costPerCalorie = (monthlyBudget / 30) / parseInt(caloriesSpentDaily);
     const averageCalorieBurntPerKm = 32;
-	const costInCalorie = averageCalorieBurntPerKm * parseInt(kmToWorkByBicycle) * 2;
+	const costInCalorie = averageCalorieBurntPerKm * kmToWorkByBicycle * 2;
     
     const costPerDay = costPerCalorie * costInCalorie;
     const costPerMonth = costPerDay * 30;
+
     
-    if (costPerMonth >= parseInt(busPrice)) {
+    if (costPerMonth >= busPrice) {
     	document.body.style.background = "red";
 		document.getElementById('text').innerHTML = "Take the bus, rich ass";
+        
+        const monthlyMax = (busPrice / (costInCalorie * 30)) * (30 * caloriesSpentDaily)
+        
+        document.getElementById('information').innerHTML="För att det ska vara värt att cykla till jobbet måste du spendera mindre än " +monthlyMax +"SEK på mat i månaden.";
     } else {
     	document.body.style.background = "green";
         document.getElementById('text').innerHTML = "It's worth cycling!";
+        const monthlyMax = (busPrice / (costInCalorie * 30)) * (30 * caloriesSpentDaily)
+        
+        document.getElementById('information').innerHTML="För att det inte ska vara värt att cykla till jobbet måste du spendera mer eller lika med " +monthlyMax +"SEK på mat i månaden.";
     }
 }
 
